@@ -1,3 +1,5 @@
+# 第一周作业
+
 移动0
 
 ```c++
@@ -78,5 +80,53 @@ public:
     }
 
 };
+```
+
+
+
+# 第二周作业
+
+二叉树的中序遍历
+
+```c++
+vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> St;
+        vector<int> v;
+        TreeNode* rt = root;
+        while(rt || St.size()){
+            while(rt){
+                St.push(rt->right);
+                v.push_back(rt->val);
+                rt=rt->left;
+            }
+            rt=St.top();St.pop();
+        }
+        return v;        
+    }
+
+```
+
+丑数
+
+```c++
+
+    int nthUglyNumber(int n) {
+        int two = 0, three = 0, five = 0;
+        vector<int> dp(n);
+        dp[0] = 1; // dp 初始化
+
+        for (int i = 1; i < n; ++i) {
+            int t1 = dp[two] * 2, t2 = dp[three] * 3, t3 = dp[five] * 5;
+            dp[i] = min(min(t1, t2), t3);
+
+            if (dp[i] == t1) {++ two;}
+            if (dp[i] == t2) {++ three;}
+            if (dp[i] == t3) {++ five;}
+        }
+
+        return dp[n - 1];
+    }
+
+
 ```
 
