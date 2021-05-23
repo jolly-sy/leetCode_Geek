@@ -130,3 +130,63 @@ vector<int> preorderTraversal(TreeNode* root) {
 
 ```
 
+# 第三周作业
+
+力扣46 全排列
+
+```c++
+vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> tmpRes;
+        backtracing(res, tmpRes, nums, 0);
+        return res;
+    }
+    void backtracing(vector<vector<int>>& res, vector<int>& tmpRes, vector<int>& nums, int index)
+    {
+        if(index == nums.size()) //index表示当前排列到第几个数了，比如给定的数组是3个数[1,2,3],当前正在进行排列的一个数组是[1,3],那么index就是1(index从0开始计数)
+        {
+            res.push_back(tmpRes);
+            return;
+        }
+        for(int i = 0; i < nums.size(); i++)
+        {
+            //如果nums[i]已经存在于当前正在排列的数组tmpRes中，就跳过后面的执行步骤，否则，将nums[i]加入tmpRes,然后接着进行递归
+            if(find(tmpRes.cbegin(), tmpRes.cend(), nums[i]) != tmpRes.end())
+            {
+                continue;
+            }
+            tmpRes.push_back(nums[i]);
+            backtracing(res, tmpRes, nums, index+1);
+            tmpRes.pop_back(); //tmpRes中加入了nums[i]，在这里要做回溯，然后才能进行下一次递归
+        }
+    }
+```
+
+ 
+
+力扣77 组合
+
+```c++
+vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> tmpRes;
+        backtracing(res, tmpRes, n, k, 1); //因为是1~n中的数，所以index从1开始
+        return res;
+    }
+    void backtracing(vector<vector<int>>& res, vector<int>& tmpRes, int n, int k, int index)
+    {
+        if(tmpRes.size() == k)
+        {
+            res.push_back(tmpRes);
+            return;
+        }
+        //组合与排列不同的是，组合里的元素是不讲究顺序的，所以这里的i从index开始而不是从0开始
+        for(int i = index; i <= n; i++) 
+        {
+            tmpRes.push_back(i);
+            backtracing(res, tmpRes, n, k, i+1);
+            tmpRes.pop_back();
+        }
+    }
+```
+
